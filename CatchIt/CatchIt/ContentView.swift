@@ -6,30 +6,27 @@
 //
 
 import SwiftUI
-import UIKit
 
 struct ContentView: View {
     var body: some View {
-
-        HStack{
-            Text("Back")
-                .foregroundStyle(.blue)
-            Spacer()
-            Text("Settings")
-            Spacer()
-            Image(systemName: "gear")
-                .foregroundStyle(.blue)
-        }.padding()
         
-        List {
-            Text("Setting 1")
-            Text("Setting 2")
-            Text("Setting 3")
-            Text("Setting 4")
+        NavigationStack {
+            ZStack {
+                VStack {
+                    HStack {
+                        Spacer()    //Utilizzata per portare la NavBar sopra
+                        NavigationLink(destination: SettingsView()) {
+                            Text("Settings")
+                        }
+                    }
+                    .padding()
+                    .padding(.trailing, 10)
+                    Spacer()
+                }
+            }
         }
     }
 }
-
 #Preview {
     ContentView()
 }
