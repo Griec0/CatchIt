@@ -1,17 +1,18 @@
 //
-//  CatchItApp.swift
+//  Main.swift
 //  CatchIt
 //
-//  Created by Giano on 10/12/24.
+//  Created by Giano on 13/12/24.
 //
 
 import SwiftUI
 
 @main
-struct CatchItApp: App {
+struct NoteApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NotesView()
         }
     }
 }
+
