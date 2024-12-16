@@ -19,14 +19,53 @@ struct Note: Identifiable, Codable {
     }
 }
 
-class NotesViewModel: ObservableObject {
-    @Published var notes: [Note] = []
+struct Folder: Identifiable, Codable {
+    let id: UUID
+    var name: String
+    var notes: [Note]
 
-    func add(note: Note) {
-        notes.append(note)
+    init(name: String, notes: [Note] = []) {
+        self.id = UUID()
+        self.name = name
+        self.notes = notes
+    }
+}
+
+class NotesViewModel: ObservableObject {
+    @Published var folders: [Folder] = [] {
+        didSet {
+            saveFolders()
+        }
     }
 
-    func update(note: Note, at index: Int) {
-        notes[index] = note
+    init() {
+        loadFolders()
+    }
+
+    private let foldersKey = "savedFolders"
+
+    func addFolder(folder: Folder) {
+        folders.append(folder)
+    }
+
+    func add(note: Note, to folderIndex: Int) {
+        folders[folderIndex].notes.append(note)
+    }
+
+    func update(note: Note, in folderIndex: Int, at noteIndex: Int) {
+        folders[folderIndex].notes[noteIndex] = note
+    }
+
+    private func saveFolders() {
+        if let encoded = try? JSONEncoder().encode(folders) {
+            UserDefaults.standard.set(encoded, forKey: foldersKey)
+        }
+    }
+
+    private func loadFolders() {
+        if let data = UserDefaults.standard.data(forKey: foldersKey),
+           let decoded = try? JSONDecoder().decode([Folder].self, from: data) {
+            folders = decoded
+        }
     }
 }

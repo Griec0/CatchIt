@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct AddNoteView: View {
-    
     @Environment(\ .presentationMode) var presentationMode
     @ObservedObject var viewModel: NotesViewModel
     @State private var content: String = ""
-    
+    let folderIndex: Int
     var noteToEdit: Note? = nil
     var noteIndex: Int? = nil
 
-    init(viewModel: NotesViewModel, noteToEdit: Note? = nil, noteIndex: Int? = nil) {
+    init(viewModel: NotesViewModel, folderIndex: Int, noteToEdit: Note? = nil, noteIndex: Int? = nil) {
         self.viewModel = viewModel
+        self.folderIndex = folderIndex
         self.noteToEdit = noteToEdit
         self.noteIndex = noteIndex
         _content = State(initialValue: noteToEdit?.content ?? "")
@@ -38,10 +38,10 @@ struct AddNoteView: View {
                             var updatedNote = noteToEdit
                             updatedNote.content = content
                             updatedNote.date = Date()
-                            viewModel.update(note: updatedNote, at: index)
+                            viewModel.update(note: updatedNote, in: folderIndex, at: index)
                         } else {
                             let newNote = Note(content: content)
-                            viewModel.add(note: newNote)
+                            viewModel.add(note: newNote, to: folderIndex)
                         }
                         presentationMode.wrappedValue.dismiss()
                     }

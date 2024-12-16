@@ -11,8 +11,7 @@ import SwiftUI
 struct NoteApp: App {
     var body: some Scene {
         WindowGroup {
-            NotesView()
+            FoldersView()
         }
     }
 }
-
