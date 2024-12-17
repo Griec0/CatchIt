@@ -10,6 +10,7 @@ import SwiftUI
 struct AddNoteView: View {
     @Environment(\ .presentationMode) var presentationMode
     @ObservedObject var viewModel: NotesViewModel
+    @State private var title: String = ""
     @State private var content: String = ""
     let folderIndex: Int
     var noteToEdit: Note? = nil
@@ -20,15 +21,19 @@ struct AddNoteView: View {
         self.folderIndex = folderIndex
         self.noteToEdit = noteToEdit
         self.noteIndex = noteIndex
+        _title = State(initialValue: noteToEdit?.title ?? "")
         _content = State(initialValue: noteToEdit?.content ?? "")
     }
 
     var body: some View {
         NavigationView {
             VStack {
-                TextEditor(text: $content)
+                TextField("Inserisci un titolo", text: $title)
+                    .font(.title)
                     .padding()
-                    .navigationTitle(noteToEdit == nil ? "Nuova Nota" : "Modifica Nota")
+                TextEditor(text: $content)
+                    .font(.body)
+                    .padding()
                 Spacer()
             }
             .toolbar {
@@ -36,11 +41,12 @@ struct AddNoteView: View {
                     Button("Salva") {
                         if let noteToEdit = noteToEdit, let index = noteIndex {
                             var updatedNote = noteToEdit
+                            updatedNote.title = title
                             updatedNote.content = content
                             updatedNote.date = Date()
                             viewModel.update(note: updatedNote, in: folderIndex, at: index)
                         } else {
-                            let newNote = Note(content: content)
+                            let newNote = Note(title: title, content: content)
                             viewModel.add(note: newNote, to: folderIndex)
                         }
                         presentationMode.wrappedValue.dismiss()

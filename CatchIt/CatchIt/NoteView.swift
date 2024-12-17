@@ -18,12 +18,22 @@ struct NotesView: View {
                 ForEach(Array(viewModel.folders[folderIndex].notes.enumerated()), id: \ .element.id) { index, note in
                     NavigationLink(destination: AddNoteView(viewModel: viewModel, folderIndex: folderIndex, noteToEdit: note, noteIndex: index)) {
                         VStack(alignment: .leading) {
-                            Text(note.content)
+                            Text(note.title)
                                 .font(.headline)
-                            Text(note.date, style: .date)
+                                .lineLimit(1)
+                            Text(note.content)
                                 .font(.subheadline)
+                                .lineLimit(1)
                                 .foregroundColor(.gray)
+                            Text(note.date, style: .date)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
                         }
+                    }
+                }
+                .onDelete { indices in
+                    indices.forEach { index in
+                        viewModel.delete(noteAt: index, in: folderIndex)
                     }
                 }
             }

@@ -2,7 +2,7 @@
 //  FolderView.swift
 //  CatchIt
 //
-//  Created by Giano on 16/12/24.
+//  Created by Giano on 13/12/24.
 //
 
 import SwiftUI
@@ -23,6 +23,11 @@ struct FoldersView: View {
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
                         }
+                    }
+                }
+                .onDelete { indices in
+                    indices.forEach { index in
+                        viewModel.deleteFolder(at: index)
                     }
                 }
             }
