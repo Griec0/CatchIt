@@ -8,23 +8,29 @@
 import SwiftUI
 
 struct AddFolderView: View {
+    
     @Environment(\ .presentationMode) var presentationMode
     @ObservedObject var viewModel: NotesViewModel
     @State private var folderName: String = ""
 
     var body: some View {
         NavigationView {
-            VStack {
+            Form {
                 TextField("Nome Cartella", text: $folderName)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-                Spacer()
+                    .accessibilityLabel("Nome della nuova cartella")
             }
+            .navigationBarTitle("Aggiungi Cartella", displayMode: .inline)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Annulla") {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Salva") {
-                        let newFolder = Folder(name: folderName)
-                        viewModel.addFolder(folder: newFolder)
+                        if !folderName.isEmpty {
+                            viewModel.addFolder(folder: Folder(name: folderName))
+                        }
                         presentationMode.wrappedValue.dismiss()
                     }
                 }

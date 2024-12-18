@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct AddNoteView: View {
+    
     @Environment(\ .presentationMode) var presentationMode
     @ObservedObject var viewModel: NotesViewModel
     @State private var title: String = ""
     @State private var content: String = ""
+    
     let folderIndex: Int
     var noteToEdit: Note? = nil
     var noteIndex: Int? = nil

@@ -8,45 +8,40 @@
 import SwiftUI
 
 struct NotesView: View {
-    @ObservedObject var viewModel: NotesViewModel
-    let folderIndex: Int
-    @State private var isPresentingAddNote = false
     
+    @ObservedObject var viewModel: NotesViewModel
+    
+    let folderIndex: Int
+
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(Array(viewModel.folders[folderIndex].notes.enumerated()), id: \ .element.id) { index, note in
-                    NavigationLink(destination: AddNoteView(viewModel: viewModel, folderIndex: folderIndex, noteToEdit: note, noteIndex: index)) {
-                        VStack(alignment: .leading) {
-                            Text(note.title)
-                                .font(.headline)
-                                .lineLimit(1)
-                            Text(note.content)
-                                .font(.subheadline)
-                                .lineLimit(1)
-                                .foregroundColor(.gray)
-                            Text(note.date, style: .date)
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                }
-                .onDelete { indices in
-                    indices.forEach { index in
-                        viewModel.delete(noteAt: index, in: folderIndex)
+        List {
+            ForEach(Array(viewModel.folders[folderIndex].notes.enumerated()), id: \ .element.id) { index, note in
+                NavigationLink(destination: NoteDetailView(viewModel: viewModel, folderIndex: folderIndex, noteIndex: index)) {
+                    VStack(alignment: .leading) {
+                        Text(note.title)
+                            .font(.headline)
+                        Text(note.content)
+                            .lineLimit(1)
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
                     }
                 }
             }
-            .navigationTitle(viewModel.folders[folderIndex].name)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: { isPresentingAddNote = true }) {
-                        Image(systemName: "plus")
-                    }
+            .onDelete { indices in
+                indices.forEach { index in
+                    let noteTitle = viewModel.folders[folderIndex].notes[index].title
+                    viewModel.delete(noteAt: index, in: folderIndex)
+                    UIAccessibility.post(notification: .announcement, argument: "Nota \(noteTitle) eliminata.")
                 }
             }
-            .sheet(isPresented: $isPresentingAddNote) {
-                AddNoteView(viewModel: viewModel, folderIndex: folderIndex)
+        }
+        .navigationTitle(viewModel.folders[folderIndex].name)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink(destination: NoteDetailView(viewModel: viewModel, folderIndex: folderIndex)) {
+                    Image(systemName: "plus")
+                        .accessibilityLabel("Aggiungi una nuova nota")
+                }
             }
         }
     }
