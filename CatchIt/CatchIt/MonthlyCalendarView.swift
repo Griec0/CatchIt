@@ -24,10 +24,10 @@ struct MonthlyCalendarView: View {
                     Spacer()
                 }
             }
-            .navigationTitle("Calendario")
+            .navigationTitle("Calendar")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Chiudi") {
+                    Button("Close") {
                         presentationMode.wrappedValue.dismiss()
                     }
                 }

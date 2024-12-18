@@ -31,7 +31,7 @@ struct NotesView: View {
                 indices.forEach { index in
                     let noteTitle = viewModel.folders[folderIndex].notes[index].title
                     viewModel.delete(noteAt: index, in: folderIndex)
-                    UIAccessibility.post(notification: .announcement, argument: "Nota \(noteTitle) eliminata.")
+                    UIAccessibility.post(notification: .announcement, argument: "Deleted \(noteTitle) note.")
                 }
             }
         }
@@ -40,7 +40,7 @@ struct NotesView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink(destination: NoteDetailView(viewModel: viewModel, folderIndex: folderIndex)) {
                     Image(systemName: "plus")
-                        .accessibilityLabel("Aggiungi una nuova nota")
+                        .accessibilityLabel("Add a new note")
                 }
             }
         }

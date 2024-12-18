@@ -30,7 +30,7 @@ struct AddNoteView: View {
     var body: some View {
         NavigationView {
             VStack {
-                TextField("Inserisci un titolo", text: $title)
+                TextField("Add title", text: $title)
                     .font(.title)
                     .padding()
                 TextEditor(text: $content)
@@ -40,7 +40,7 @@ struct AddNoteView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Salva") {
+                    Button("Save") {
                         if let noteToEdit = noteToEdit, let index = noteIndex {
                             var updatedNote = noteToEdit
                             updatedNote.title = title

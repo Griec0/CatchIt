@@ -36,15 +36,15 @@ struct NoteDetailView: View {
 
     var body: some View {
         Form {
-            TextField("Titolo", text: $title)
+            TextField("Title", text: $title)
                 .font(.headline)
             TextEditor(text: $content)
                 .frame(minHeight: 200)
         }
-        .navigationBarTitle(noteIndex == nil ? "Nuova Nota" : "Modifica Nota", displayMode: .inline)
+        .navigationBarTitle(noteIndex == nil ? "New Note" : "Edit Note", displayMode: .inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Salva") {
+                Button("Save") {
                     let newNote = Note(title: title, content: content)
                     if let noteIndex = noteIndex {
                         viewModel.update(note: newNote, in: folderIndex, at: noteIndex)

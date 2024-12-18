@@ -16,18 +16,18 @@ struct AddFolderView: View {
     var body: some View {
         NavigationView {
             Form {
-                TextField("Nome Cartella", text: $folderName)
-                    .accessibilityLabel("Nome della nuova cartella")
+                TextField("New Folder", text: $folderName)
+                    .accessibilityLabel("Name of the new folder")
             }
-            .navigationBarTitle("Aggiungi Cartella", displayMode: .inline)
+            .navigationBarTitle("Add Folders", displayMode: .inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Annulla") {
+                    Button("Cancel") {
                         presentationMode.wrappedValue.dismiss()
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Salva") {
+                    Button("Save") {
                         if !folderName.isEmpty {
                             viewModel.addFolder(folder: Folder(name: folderName))
                         }

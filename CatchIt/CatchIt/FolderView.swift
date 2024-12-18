@@ -21,7 +21,7 @@ struct FoldersView: View {
                         VStack(alignment: .leading) {
                             Text(folder.name)
                                 .font(.headline)
-                                .accessibilityLabel("Cartella \(folder.name)")
+                                .accessibilityLabel("Folder \(folder.name)")
                             Text("\(folder.notes.count) note(s)")
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
@@ -33,22 +33,22 @@ struct FoldersView: View {
                     indices.forEach { index in
                         let folderName = viewModel.folders[index].name
                         viewModel.deleteFolder(at: index)
-                        UIAccessibility.post(notification: .announcement, argument: "Cartella \(folderName) eliminata.")
+                        UIAccessibility.post(notification: .announcement, argument: "Folder \(folderName) deleted.")
                     }
                 }
             }
-            .navigationTitle("Cartelle")
+            .navigationTitle("Folders")
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarLeading) {
                     Button(action: { isPresentingCalendarView = true }) {
                         Image(systemName: "calendar")
-                            .accessibilityLabel("Apri il calendario")
+                            .accessibilityLabel("Open the calendar")
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: { isPresentingAddFolder = true }) {
                         Image(systemName: "folder.badge.plus")
-                            .accessibilityLabel("Aggiungi una nuova cartella")
+                            .accessibilityLabel("Add a new folder")
                     }
                 }
             }
